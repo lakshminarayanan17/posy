@@ -1,0 +1,19 @@
+{
+  "name": "posy",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Draw flowers, wrap them into a bouquet, and send it to someone with a link.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "perfect-freehand": "^1.2.3"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}
