@@ -118,7 +118,7 @@ function serialize(b: Bouquet): Uint8Array {
 function deserialize(bytes: Uint8Array): Bouquet {
   const r = new Reader(bytes);
   const version = r.u8();
-  if (version !== VERSION) throw new Error('This bouquet was made with a newer version of Posy');
+  if (version !== VERSION) throw new Error('This bouquet was made with a newer version of Fleur');
   const clampIdx = (v: number, list: unknown[]) => (v < list.length ? v : 0);
   const b: Bouquet = {
     paper: clampIdx(r.varint(), PAPERS),

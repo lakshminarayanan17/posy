@@ -1,4 +1,4 @@
-# posy
+# fleur
 
 Draw someone flowers. Sketch a few blooms, wrap them in paper, add a note and
 send the bouquet as a link. The recipient opens an envelope and watches each

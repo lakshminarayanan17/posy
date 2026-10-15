@@ -25,7 +25,7 @@ const app = document.getElementById('app')!;
 let current: View | null = null;
 
 function logo() {
-  return h('a.logo', { href: location.pathname, 'aria-label': 'Posy home' }, sticker('flower', 'logo-mark'), h('span.logo-word', null, 'posy'));
+  return h('a.logo', { href: location.pathname, 'aria-label': 'Fleur home' }, sticker('flower', 'logo-mark'), h('span.logo-word', null, 'fleur'));
 }
 
 function header(step: Step | null) {
