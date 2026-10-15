@@ -1,5 +1,5 @@
-// Bouquet <-> URL-safe string. Everything lives in the link's #hash, so no
-// server ever sees (or has to store) the drawing or the note.
+// Bouquet <-> URL-safe string. It goes in a long link's #hash, or is saved
+// under a short id (see links.ts).
 //
 // Layout (v1), before deflate:
 //   u8 version | var paper | var ribbon | str to | str note | str from

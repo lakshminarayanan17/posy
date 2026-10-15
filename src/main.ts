@@ -2,6 +2,7 @@ import './style.css';
 import { decodeBouquet } from './codec';
 import { sticker } from './decor';
 import { h, toast } from './dom';
+import { HOME, lookup, shortId } from './links';
 import { installShop } from './shop';
 import { installPaints } from './sparkle';
 import { store } from './store';
@@ -25,7 +26,7 @@ const app = document.getElementById('app')!;
 let current: View | null = null;
 
 function logo() {
-  return h('a.logo', { href: location.pathname, 'aria-label': 'Fleur home' }, sticker('flower', 'logo-mark'), h('span.logo-word', null, 'fleur'));
+  return h('a.logo', { href: HOME, 'aria-label': 'Fleur home' }, sticker('flower', 'logo-mark'), h('span.logo-word', null, 'fleur'));
 }
 
 function header(step: Step | null) {
@@ -66,14 +67,14 @@ function mount(view: View, step: Step | null) {
   app.replaceChildren(
     header(step),
     view,
-    h('footer.colophon', null, 'made by hand with ', h('span.heart', null, '♡'), ' & a little glitter · your bouquet lives only in its link'),
+    h('footer.colophon', null, 'made by hand with ', h('span.heart', null, '♡'), ' & a little glitter'),
   );
   window.scrollTo({ top: 0 });
 }
 
 function compose(step: Step) {
   const go = (s: Step) => {
-    if (s === 'draw') history.replaceState(null, '', location.pathname);
+    if (s === 'draw') history.replaceState(null, '', HOME);
     compose(s);
   };
   const view = step === 'draw' ? drawView(go) : step === 'arrange' ? arrangeView(go) : sendView(go);
@@ -82,12 +83,14 @@ function compose(step: Step) {
 
 async function route() {
   const match = location.hash.match(/^#b=([A-Za-z0-9_-]+)$/);
-  if (!match) return compose('draw');
+  const id = match ? null : shortId();
+  if (!match && !id) return compose('draw');
   try {
-    const bouquet = await decodeBouquet(match[1]);
+    if (id) mount(h('section.view.view--lost', null, h('p.eyebrow', null, 'one moment'), h('h1.display', null, 'Fetching your ', h('em', null, 'flowers…'))), null);
+    const bouquet = await decodeBouquet(id ? await lookup(id) : match![1]);
     mount(
       receiveView(bouquet, () => {
-        history.pushState(null, '', location.pathname);
+        history.pushState(null, '', HOME);
         compose('draw');
       }),
       null,
@@ -101,7 +104,7 @@ async function route() {
         h('p.eyebrow', null, 'oh no'),
         h('h1.display', null, 'These flowers got ', h('em', null, 'lost in the post')),
         h('p.lede', null, 'The link looks incomplete — it may have been cut off when it was shared. Ask the sender to copy it again.'),
-        h('a.primary', { href: location.pathname }, 'Draw your own bouquet'),
+        h('a.primary', { href: HOME }, 'Draw your own bouquet'),
       ),
       null,
     );

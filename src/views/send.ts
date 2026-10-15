@@ -2,12 +2,9 @@ import { renderBouquet } from '../bouquet';
 import { encodeBouquet } from '../codec';
 import { sticker, tape } from '../decor';
 import { h, icon, toast } from '../dom';
+import { longLink, shorten } from '../links';
 import { MAX_NAME, MAX_NOTE } from '../model';
 import { store } from '../store';
-
-export function shareUrl(code: string) {
-  return `${location.origin}${location.pathname}#b=${code}`;
-}
 
 export function sendView(go: (step: 'arrange' | 'draw') => void): HTMLElement {
   const b = store.bouquet;
@@ -65,7 +62,8 @@ export function sendView(go: (step: 'arrange' | 'draw') => void): HTMLElement {
   wrapBtn.addEventListener('click', async () => {
     wrapBtn.disabled = true;
     try {
-      const url = shareUrl(await encodeBouquet(b));
+      const code = await encodeBouquet(b);
+      const url = (await shorten(code)) ?? longLink(code);
       showResult(url);
     } catch (err) {
       console.error(err);
@@ -109,7 +107,7 @@ export function sendView(go: (step: 'arrange' | 'draw') => void): HTMLElement {
     result.replaceChildren(
       tape('lilac', 'tape--panel'),
       h('h2.result-title', null, 'All wrapped ', h('em', null, '& ready!')),
-      h('p.muted', null, `Send this link to them — the whole bouquet lives inside it (${(url.length / 1024).toFixed(1)} KB), nothing is stored on a server.`),
+      h('p.muted', null, 'Send this link to them — it opens straight into your bouquet.'),
       field,
       actions,
       h(
