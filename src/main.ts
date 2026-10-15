@@ -2,6 +2,7 @@ import './style.css';
 import { decodeBouquet } from './codec';
 import { sticker } from './decor';
 import { h, toast } from './dom';
+import { installShop } from './shop';
 import { installPaints } from './sparkle';
 import { store } from './store';
 import { arrangeView } from './views/arrange';
@@ -10,6 +11,7 @@ import { receiveView } from './views/receive';
 import { sendView } from './views/send';
 
 installPaints();
+installShop();
 
 type Step = 'draw' | 'arrange' | 'send';
 type View = HTMLElement & { cleanup?: () => void; beforeLeave?: () => void };

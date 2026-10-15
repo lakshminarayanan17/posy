@@ -4,8 +4,7 @@
 ------------------------------------------------------------------- */
 
 :root {
-  --bg: #fff3f5;
-  --grid: rgba(240, 120, 158, 0.12);
+  --bg: #fff7f1;
   --card: #fffdf8;
   --plum: #3d2140;
   --plum-2: #6e4a6c;
@@ -52,26 +51,10 @@ body {
   margin: 0;
   min-height: 100dvh;
   background-color: var(--bg);
-  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 28px 28px;
-  background-position: -1px -1px;
   color: var(--plum);
   font: 400 16px/1.5 var(--ui);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-}
-
-/* Soft pastel washes behind everything. */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    radial-gradient(38vw 38vw at 4% 8%, rgba(255, 179, 204, 0.45), transparent 70%),
-    radial-gradient(34vw 34vw at 100% 26%, rgba(201, 182, 255, 0.32), transparent 70%),
-    radial-gradient(46vw 36vw at 70% 108%, rgba(168, 230, 203, 0.35), transparent 70%);
 }
 
 #app {
@@ -291,6 +274,173 @@ button {
   text-align: center;
 }
 
+/* ---------- The flower shop ----------
+   A fixed backdrop: striped wallpaper, a mint wainscot and checker floor,
+   a scalloped awning with fairy lights, and props at either side. */
+
+.shop {
+  --floor: clamp(26px, 4.5vh, 42px);
+  --rail: clamp(130px, 24vh, 230px);
+  --side: max(0px, calc(50% - 600px - 250px));
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.shop > * {
+  position: absolute;
+}
+.shop svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.shop-wall {
+  inset: 0;
+  background:
+    radial-gradient(70vw 60vh at 0% 0%, rgba(255, 238, 196, 0.6), transparent 70%),
+    radial-gradient(50vw 50vh at 100% 30%, rgba(233, 224, 255, 0.45), transparent 70%),
+    var(--sprig) 0 0 / 72px 96px,
+    repeating-linear-gradient(90deg, #fff7f1 0 36px, #ffe9ee 36px 72px);
+}
+
+.shop-wainscot {
+  left: 0;
+  right: 0;
+  bottom: var(--floor);
+  height: var(--rail);
+  border-top: 2.5px solid var(--plum);
+  background:
+    linear-gradient(rgba(61, 33, 64, 0.1), transparent 22px) 0 12px / 100% 100% no-repeat,
+    linear-gradient(90deg, rgba(61, 33, 64, 0.08) 2px, rgba(255, 255, 255, 0.45) 2px 4px, transparent 4px) 0 0 / 26px 100%,
+    #d3eddf;
+  box-shadow: inset 0 11px 0 #ebc195, inset 0 13.5px 0 var(--plum);
+}
+
+.shop-floor {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--floor);
+  border-top: 2.5px solid var(--plum);
+  background: conic-gradient(#f7c3d0 25%, #fff7f1 0 50%, #f7c3d0 0 75%, #fff7f1 0) 0 0 / 40px 40px;
+}
+
+.shop-awning {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  filter: drop-shadow(0 2.5px 0 var(--plum)) drop-shadow(0 7px 6px rgba(61, 33, 64, 0.14));
+}
+.shop-awning::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.4), transparent 45%, rgba(61, 33, 64, 0.07)),
+    repeating-linear-gradient(90deg, #ff8fb1 0 40px, #fff7f1 40px 80px);
+  -webkit-mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - 14px) no-repeat,
+    radial-gradient(circle at 20px 0, #000 19.5px, transparent 20.5px) left bottom / 40px 14px repeat-x;
+  mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - 14px) no-repeat,
+    radial-gradient(circle at 20px 0, #000 19.5px, transparent 20.5px) left bottom / 40px 14px repeat-x;
+}
+
+.shop-lights {
+  top: 30px;
+  left: 0;
+  right: 0;
+  height: 60px;
+}
+.shop-lights svg {
+  position: absolute;
+  inset: 0;
+}
+.shop-bulb {
+  position: absolute;
+  width: 9px;
+  height: 13px;
+  margin: 2px 0 0 -4.5px;
+  border: 1.6px solid var(--plum);
+  border-radius: 50% 50% 46% 46% / 42% 42% 58% 58%;
+  background: var(--c);
+  box-shadow: 0 0 9px 3px color-mix(in srgb, var(--c) 65%, transparent);
+  animation: bulb 2.8s ease-in-out var(--d) infinite;
+}
+.shop-bulb::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 6px;
+  height: 4px;
+  margin-left: -3px;
+  border-radius: 2px;
+  background: var(--plum);
+}
+@keyframes bulb {
+  50% {
+    box-shadow: 0 0 3px 1px color-mix(in srgb, var(--c) 40%, transparent);
+    filter: saturate(0.7) brightness(0.96);
+  }
+}
+
+.shop-plant {
+  top: 26px;
+  width: clamp(76px, 7.5vw, 118px);
+  aspect-ratio: 124 / 320;
+  transform-origin: 50% 0;
+  animation: sway 7s ease-in-out infinite;
+}
+.shop-plant--l {
+  left: max(10px, calc(50% - 600px - 150px));
+}
+.shop-plant--r {
+  right: max(10px, calc(50% - 600px - 150px));
+  animation-delay: -3.5s;
+}
+@keyframes sway {
+  0%,
+  100% {
+    rotate: -2deg;
+  }
+  50% {
+    rotate: 2deg;
+  }
+}
+
+.shop-stand,
+.shop-wrap {
+  bottom: calc(var(--floor) - 3px);
+  height: min(72vh, 620px);
+  aspect-ratio: 280 / 600;
+}
+.shop-stand {
+  left: var(--side);
+}
+.shop-wrap {
+  right: var(--side);
+}
+.shop .zzz {
+  animation: zzz 3.6s ease-in-out infinite;
+}
+@keyframes zzz {
+  0%,
+  100% {
+    opacity: 0.2;
+    translate: 0 4px;
+  }
+  50% {
+    opacity: 0.9;
+    translate: 2px -4px;
+  }
+}
+
 /* ---------- Masthead ---------- */
 
 .masthead {
@@ -298,7 +448,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 20px var(--gutter);
+  padding: 56px var(--gutter) 20px;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -698,7 +848,7 @@ aside.panel {
 .sheet {
   grid-area: sheet;
   position: relative;
-  width: min(100%, 470px, calc((100dvh - 380px) * 0.75));
+  width: min(100%, 470px, calc((100dvh - 416px) * 0.75));
   min-width: min(100%, 300px);
   aspect-ratio: 3 / 4;
   background:
@@ -937,7 +1087,7 @@ aside.panel {
 
 .bouquet-stage {
   position: relative;
-  width: min(100%, 560px, calc((100dvh - 340px) * 0.952));
+  width: min(100%, 560px, calc((100dvh - 376px) * 0.952));
   min-width: min(100%, 300px);
   aspect-ratio: 600 / 630;
 }
@@ -1172,7 +1322,7 @@ aside.panel {
   grid-template-columns: minmax(0, 1fr) 380px;
 }
 .bouquet-stage--small {
-  width: min(100%, 520px, calc((100dvh - 290px) * 0.952));
+  width: min(100%, 520px, calc((100dvh - 326px) * 0.952));
 }
 
 .note-card {
@@ -1348,7 +1498,7 @@ aside.panel {
   place-items: center;
 }
 .bouquet-stage--gift {
-  width: min(100%, 600px, calc((100dvh - 280px) * 0.952));
+  width: min(100%, 600px, calc((100dvh - 316px) * 0.952));
 }
 .bouquet-stage--gift .bouquet .wrap,
 .bouquet-stage--gift .bouquet .stem-ends {
@@ -1735,7 +1885,7 @@ aside.panel {
     justify-items: center;
   }
   .sheet {
-    width: min(100%, 440px, calc((100dvh - 300px) * 0.75));
+    width: min(100%, 440px, calc((100dvh - 336px) * 0.75));
   }
   .palette {
     flex-direction: row;
@@ -1787,7 +1937,7 @@ aside.panel {
 
 @media (max-width: 560px) {
   .masthead {
-    padding-top: 14px;
+    padding-top: 46px;
     padding-bottom: 12px;
   }
   .logo-word {
@@ -1819,7 +1969,7 @@ aside.panel {
     margin-bottom: 26px;
   }
   .sheet {
-    width: min(100%, max(250px, calc((100dvh - 420px) * 0.75)));
+    width: min(100%, max(250px, calc((100dvh - 456px) * 0.75)));
     min-width: 0;
   }
   .palette {
@@ -1890,6 +2040,55 @@ aside.panel {
   .swatch {
     width: 28px;
     height: 28px;
+  }
+}
+
+/* The awning takes some height, so the tall desktop palette tightens up on shorter screens. */
+@media (min-width: 881px) and (max-height: 960px) {
+  .swatches,
+  .sizes {
+    gap: 6px;
+  }
+  .swatch,
+  .size {
+    width: 30px;
+    height: 30px;
+  }
+  .swatches,
+  .sizes {
+    grid-template-columns: repeat(2, 30px);
+  }
+}
+
+@media (max-width: 880px) {
+  .shop-plant {
+    display: none;
+  }
+}
+
+/* On phones the content fills the width, so the side props would only clutter it. */
+@media (max-width: 560px) {
+  .shop-stand,
+  .shop-wrap {
+    display: none;
+  }
+  .shop-awning {
+    height: 30px;
+  }
+  .shop-awning::before {
+    background-size: auto, auto;
+    -webkit-mask-size: 100% calc(100% - 10px), 30px 10px;
+    mask-size: 100% calc(100% - 10px), 30px 10px;
+    -webkit-mask-image: linear-gradient(#000 0 0), radial-gradient(circle at 15px 0, #000 14.5px, transparent 15.5px);
+    mask-image: linear-gradient(#000 0 0), radial-gradient(circle at 15px 0, #000 14.5px, transparent 15.5px);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.4), transparent 45%, rgba(61, 33, 64, 0.07)),
+      repeating-linear-gradient(90deg, #ff8fb1 0 30px, #fff7f1 30px 60px);
+  }
+  .shop-lights {
+    top: 22px;
+  }
+  .shop-lights .shop-bulb:nth-child(even) {
+    display: none;
   }
 }
 
